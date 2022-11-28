@@ -1,4 +1,4 @@
 TEST_GUILD_ID = None
 STATUS = "uwu"
-COLOR = 0x36393f
+COLOR = 0x2f3136
 BAD = 0xed4245
