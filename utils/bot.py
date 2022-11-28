@@ -1,20 +1,22 @@
-from discord.ext import commands
-import discord
-import logging
+from logging import getLogger
+from os import getenv, listdir
 from time import time
-import os
-from utils.logger import setup_logging
-from config import STATUS, TEST_GUILD_ID, BAD
 from traceback import format_exception
+
+import discord
+from discord.ext import commands
+
+from config import BAD, STATUS, TEST_GUILD_ID
+from utils.logger import setup_logging
 
 
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!", intents=discord.Intents.all(), help_command=None, debug_guilds=TEST_GUILD_ID)
         setup_logging()
-        self.logger = logging.getLogger(__name__)
+        self.logger = getLogger(__name__)
         self.start_time = time()
-        for filename in os.listdir("functions"):
+        for filename in listdir("functions"):
             if filename.endswith(".py"):
                 self.load_cog(f"functions.{filename[:-3]}")
         self.logger.info(f"{len(self.extensions)} extensions are completely loaded")
@@ -28,7 +30,7 @@ class Bot(commands.Bot):
             self.logger.error(e)
 
     def run(self):
-        super().run(os.getenv("TOKEN"))
+        super().run(getenv("TOKEN"))
 
     async def on_ready(self):
         self.logger.info(f"Logged in as {self.user.name}")

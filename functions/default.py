@@ -1,12 +1,14 @@
-import discord
-from discord.ext import commands
-from utils.commands import slash_command
-from discord.commands import ApplicationContext, Option
-from config import COLOR
-import time
-import logging
+from logging import getLogger
+from time import time
 
-logger = logging.getLogger(__name__)
+from discord import Embed
+from discord.commands import ApplicationContext, Option
+from discord.ext import commands
+
+from config import COLOR
+from utils.commands import slash_command
+
+logger = getLogger(__name__)
 
 
 class Default(commands.Cog):
@@ -15,7 +17,7 @@ class Default(commands.Cog):
 
     @slash_command(name="핑", description="봇의 핑을 전송합니다.")
     async def ping(self, ctx: ApplicationContext):
-        embed = discord.Embed(title=":ping_pong: 퐁!", color=COLOR)
+        embed = Embed(title=":ping_pong: 퐁!", color=COLOR)
         embed.add_field(
             name="discord API Ping: ", value=f"{round(self.bot.latency * 1000)} ms"
         )
@@ -23,7 +25,7 @@ class Default(commands.Cog):
 
     @slash_command(name="봇", description="봇의 정보를 전송합니다.")
     async def botinfo(self, ctx: ApplicationContext):
-        nowtime = time.time()
+        nowtime = time()
         s = round(nowtime - self.bot.start_time)
         d = 0
         h = 0
@@ -37,7 +39,7 @@ class Default(commands.Cog):
         while s >= 60:
             s = s - 60
             m += 1
-        embed = discord.Embed(title="봇 정보", color=COLOR)
+        embed = Embed(title="봇 정보", color=COLOR)
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
         embed.add_field(name="봇 이름", value=f"**{self.bot.user.name}** ({str(self.bot.user)})", inline=False)
         embed.add_field(
