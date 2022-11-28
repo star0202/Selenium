@@ -3,3 +3,4 @@ jishkucord==2.5.2
 py-cord==2.3.1
 python-dotenv==0.21.0
 comcigan==1.4.3
+pytz==2022.6
