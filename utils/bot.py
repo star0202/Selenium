@@ -5,7 +5,6 @@ from time import time
 import os
 from utils.logger import setup_logging
 from config import STATUS, TEST_GUILD_ID, BAD
-import sys
 from traceback import format_exception
 
 
