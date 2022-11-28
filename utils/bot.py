@@ -10,8 +10,7 @@ from traceback import format_exception
 
 class Bot(commands.Bot):
     def __init__(self):
-        kwargs = dict(command_prefix="!", intents=discord.Intents.all(), help_command=None, debug_guilds=TEST_GUILD_ID)
-        super().__init__()
+        super().__init__(command_prefix="!", intents=discord.Intents.all(), help_command=None, debug_guilds=TEST_GUILD_ID)
         setup_logging()
         self.logger = logging.getLogger(__name__)
         self.start_time = time()
@@ -38,8 +37,6 @@ class Bot(commands.Bot):
             activity=discord.Game(STATUS),
         )
         await self.wait_until_ready()
-
-    
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
         text = "".join(format_exception(type(error), error, error.__traceback__))
