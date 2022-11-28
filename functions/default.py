@@ -17,7 +17,7 @@ class Manage(commands.Cog):
     async def ping(self, ctx: ApplicationContext):
         embed = discord.Embed(title=":ping_pong: 퐁!", color=COLOR)
         embed.add_field(
-            name="discord API Ping: ", value=f"{round(ctx.bot.latency * 1000)} ms"
+            name="discord API Ping: ", value=f"{round(self.bot.latency * 1000)} ms"
         )
         await ctx.respond(embed=embed)
 
@@ -38,13 +38,13 @@ class Manage(commands.Cog):
             s = s - 60
             m += 1
         embed = discord.Embed(title="봇 정보", color=COLOR)
-        embed.set_thumbnail(url=ctx.bot.user.avatar.url)
-        embed.add_field(name="봇 이름", value=f"**{ctx.bot.user.name}** ({str(ctx.bot.user)})", inline=False)
+        embed.set_thumbnail(url=self.bot.user.display_avatar.url)
+        embed.add_field(name="봇 이름", value=f"**{self.bot.user.name}** ({str(self.bot.user)})", inline=False)
         embed.add_field(
             name="업타임", value=f"{d} 일 {h} 시간 {m} 분 {s} 초",
             inline=False
         )
-        embed.add_field(name="봇 ID", value=str(ctx.bot.user.id), inline=False)
+        embed.add_field(name="봇 ID", value=str(self.bot.user.id), inline=False)
         await ctx.respond(embed=embed)
 
     @slash_command()

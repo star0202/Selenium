@@ -1,4 +1,4 @@
-TEST_GUILD_ID = 0
-STATUS = ""
-COLOR = ""
-BAD = ""
+TEST_GUILD_ID = None
+STATUS = "uwu"
+COLOR = 0x36393f
+BAD = 0xed4245
