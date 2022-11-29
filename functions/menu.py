@@ -1,4 +1,4 @@
-import re
+from re import findall, sub
 from asyncio import TimeoutError
 from datetime import timedelta
 from json import loads
@@ -71,9 +71,9 @@ class Menu(commands.Cog):
                 pattern_ntr_unit = r"\(.{1,3}\)"
                 cal = row["CAL_INFO"].replace("<br/>", "").split()
                 ntr = row["NTR_INFO"].replace("<br/>", "")
-                ntr_amt = re.findall(pattern=pattern_ntr_amt, string=ntr)
-                ntr_name = re.sub(pattern=pattern_ntr_name, repl=" ", string=ntr).split()
-                ntr_unit = re.findall(pattern=pattern_ntr_unit, string=ntr)
+                ntr_amt = findall(pattern=pattern_ntr_amt, string=ntr)
+                ntr_name = sub(pattern=pattern_ntr_name, repl=" ", string=ntr).split()
+                ntr_unit = findall(pattern=pattern_ntr_unit, string=ntr)
                 ntr_dict = {"칼로리": (cal[0], f"({cal[1]})")}
                 for x in ntr_name:
                     ntr_dict[x] = (ntr_amt.pop(0), ntr_unit.pop(0))
@@ -84,8 +84,8 @@ class Menu(commands.Cog):
                 pattern_allergic = r"[0-9\.]+"
                 pattern_menu = r"\s+\([0-9\.]+\)"
                 menu_raw = row["DDISH_NM"].replace("<br/>", "")
-                menu = re.sub(pattern=pattern_menu, repl="() ", string=menu_raw).split()
-                menu_allergic = re.findall(pattern=pattern_allergic, string=menu_raw)
+                menu = sub(pattern=pattern_menu, repl="() ", string=menu_raw).split()
+                menu_allergic = findall(pattern=pattern_allergic, string=menu_raw)
                 menu_dict = {}
                 for x in menu:
                     if x.endswith("()"):
