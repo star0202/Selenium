@@ -35,6 +35,7 @@ class Menu(commands.Cog):
         if not day:
             day = today.day
         key = getenv("NEIS_KEY")
+
         def get_menu(key: str, year: int, month: int, day: int, ntr: bool) -> Embed:
             day = format(day, "02d")
             url = f"https://open.neis.go.kr/hub/mealServiceDietInfo?KEY={key}&Type=json&pIndex=1&pSize=10&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7091455&MLSV_YMD={year}{month}{day}"
@@ -59,7 +60,7 @@ class Menu(commands.Cog):
                     embed = Embed(title=f"{year}/{month}/{day} 급식 정보", description="급식 정보가 없습니다, 날짜를 확인해주세요.", color=BAD)
                     embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
                     embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
-                    return 
+                    return
                 embed = Embed(title="오류 발생", description="개발자에게 문의 바랍니다.", color=BAD)
                 embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
                 embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
@@ -100,6 +101,7 @@ class Menu(commands.Cog):
         await msg.add_reaction("◀️")
         await msg.add_reaction("▶️")
         await msg.add_reaction("📃")
+
         def check(reaction, user):
             return (
                 str(reaction) in ["◀️", "▶️", "📃"]
