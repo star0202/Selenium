@@ -22,18 +22,9 @@ class Menu(commands.Cog):
     async def menu(
             self,
             ctx: ApplicationContext,
-            year: Option(int, name="연도", description="연도를 입력하세요", required=False),
-            month: Option(int, name="월", description="월을 입력하세요", required=False),
-            day: Option(int, name="일", description="일을 입력하세요", required=False,),
             ntr: Option(bool, name="영양소", desciprion="영양소 정보를 표시합니다", required=False, default=False)
     ):
         today = get_time()
-        if not year:
-            year = today.year
-        if not month:
-            month = today.month
-        if not day:
-            day = today.day
         key = getenv("NEIS_KEY")
 
         def get_menu(key: str, year: int, month: int, day: int, ntr: bool) -> Embed:
@@ -96,7 +87,7 @@ class Menu(commands.Cog):
                 for x in menu_dict:
                     embed.add_field(name=x, value=menu_dict[x])
             return embed
-        interaction = await ctx.respond(embed=get_menu(key, year, month, day, ntr))
+        interaction = await ctx.respond(embed=get_menu(key, today.year, today.month, today.day, ntr))
         msg = await interaction.original_response()
         await msg.add_reaction("◀️")
         await msg.add_reaction("▶️")
