@@ -26,6 +26,7 @@ class Schedule(commands.Cog):
             class_num: Option(int, name="반", description="반을 입력하세요")
     ):
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.author.id}")
+        logger.debug(f"SELECT * FROM UserData WHERE Id={ctx.author.id}")
         if self.cursor.fetchone():
             self.cursor.execute(f"UPDATE UserData SET Grade={grade_num}, Class={class_num} WHERE Id={ctx.user.id}")
             logger.debug(f"UPDATE UserData SET Grade={grade_num}, Class={class_num} WHERE Id={ctx.user.id}")
