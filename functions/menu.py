@@ -1,4 +1,3 @@
-from datetime import datetime
 from json import loads
 from logging import getLogger
 from os import getenv
@@ -7,11 +6,11 @@ from re import findall, sub
 from discord import Embed
 from discord.commands import ApplicationContext, Option
 from discord.ext import commands
-from pytz import timezone
 from requests import get
 
 from config import BAD, COLOR
 from utils.commands import slash_command
+from utils.gettime import get_time
 
 logger = getLogger(__name__)
 
@@ -27,7 +26,7 @@ class Menu(commands.Cog):
     ):
         pattern_allergic = r"[0-9\.]+"
         pattern_menu = r"\s+\([0-9\.]+\)"
-        today = datetime.now(tz=timezone("Asia/Seoul"))
+        today = get_time()
         if not year:
             year = today.year
         if not month:
@@ -41,6 +40,12 @@ class Menu(commands.Cog):
         head = data[0]["head"][1]
         row = data[1]["row"][0]
         if head["RESULT"]["CODE"] != "INFO-000":
+            if head["RESULT"]["CODE"] == "INFO-200":
+                embed = Embed(title=f"{year}/{month}/{day} 급식 정보", description="급식 정보가 없습니다, 날짜를 확인해주세요.", color=BAD)
+                embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
+                embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
+                await ctx.respond(embed=embed)
+                return
             embed = Embed(title="오류 발생", description="개발자에게 문의 바랍니다.", color=BAD)
             embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
             embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
