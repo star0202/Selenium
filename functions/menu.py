@@ -44,7 +44,6 @@ class Menu(commands.Cog):
                 embed.add_field(name="CODE", value=data["CODE"])
                 embed.add_field(name="MESSAGE", value=data["MESSAGE"])
                 return embed
-            head = data[0]["head"][1]
             row = data[1]["row"][0]
             if ntr:
                 pattern_ntr_amt = r"[0-9]+\.[0-9]+"
