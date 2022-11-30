@@ -6,13 +6,13 @@ from traceback import format_exception
 import discord
 from discord.ext import commands
 
-from config import BAD, STATUS, TEST_GUILD_ID
+from config import BAD, STATUS
 from utils.logger import setup_logging
 
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix="!", intents=discord.Intents.all(), help_command=None, debug_guilds=TEST_GUILD_ID)
+        super().__init__(command_prefix="!", intents=discord.Intents.all(), help_command=None)
         setup_logging()
         self.logger = getLogger(__name__)
         self.start_time = time()

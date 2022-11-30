@@ -46,16 +46,6 @@ class Menu(commands.Cog):
                 return embed
             head = data[0]["head"][1]
             row = data[1]["row"][0]
-            if head["RESULT"]["CODE"] != "INFO-000":
-                if head["RESULT"]["CODE"] == "INFO-200":
-                    embed = Embed(title=f"{year}/{month}/{day} 급식 정보", description="급식 정보가 없습니다, 날짜를 확인해주세요.", color=BAD)
-                    embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
-                    embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
-                    return
-                embed = Embed(title="오류 발생", description="개발자에게 문의 바랍니다.", color=BAD)
-                embed.add_field(name="CODE", value=head["RESULT"]["CODE"])
-                embed.add_field(name="MESSAGE", value=head["RESULT"]["MESSAGE"])
-                return embed
             if ntr:
                 pattern_ntr_amt = r"[0-9]+\.[0-9]+"
                 pattern_ntr_name = r"\(.{1,3}\)[^가-힇]+"
@@ -68,7 +58,7 @@ class Menu(commands.Cog):
                 ntr_dict = {"칼로리": (cal[0], f"({cal[1]})")}
                 for x in ntr_name:
                     ntr_dict[x] = (ntr_amt.pop(0), ntr_unit.pop(0))
-                embed = Embed(title=f"{year}/{month}/{day} 급식 영양소 정보", color=COLOR)
+                embed = Embed(title=f"{year}/{month}/{day} 급식 영양소 정보", color=COLOR, description="📃: 급식 보기")
                 for x in ntr_dict:
                     embed.add_field(name=x, value=f"{ntr_dict[x][0]} {ntr_dict[x][1]}")
             else:
@@ -83,7 +73,7 @@ class Menu(commands.Cog):
                         menu_dict[x.replace("()", "")] = menu_allergic.pop(0)
                     else:
                         menu_dict[x] = "알러지 정보 없음"
-                embed = Embed(title=f"{year}/{month}/{day} 급식 정보", description="작은 글씨는 알러지 정보입니다.", color=COLOR)
+                embed = Embed(title=f"{year}/{month}/{day} 급식 정보", description="작은 글씨는 알러지 정보입니다. 📃: 영양소 보기", color=COLOR)
                 for x in menu_dict:
                     embed.add_field(name=x, value=menu_dict[x])
             return embed
