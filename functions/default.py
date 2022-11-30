@@ -52,7 +52,7 @@ class Default(commands.Cog):
     @slash_command()
     async def stop(self, ctx: ApplicationContext):
         if await self.bot.is_owner(ctx.author):
-            await ctx.respond("종료됨")
+            await ctx.respond("stopping..")
             await self.bot.close()
 
     @slash_command()
@@ -66,7 +66,7 @@ class Default(commands.Cog):
     async def send_here(self, ctx: ApplicationContext, content: Option(str)):
         await ctx.send(content)
         delete_this = await ctx.respond("random respond")
-        await delete_this.delete_original_message()
+        await delete_this.delete_original_response()
 
 
 def setup(bot):
