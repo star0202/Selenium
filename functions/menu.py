@@ -1,9 +1,8 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from json import loads
 from logging import getLogger
 from os import getenv
 from re import findall, sub
-from datetime import datetime
 
 import discord
 from discord.commands import ApplicationContext, Option
