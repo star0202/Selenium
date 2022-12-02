@@ -77,17 +77,17 @@ class MenuControl(discord.ui.View):
         super().__init__(timeout=60)
         self.today = get_time()
         self.ntr = ntr
-    
+
     @discord.ui.button(label="◀️", style=discord.ButtonStyle.blurple)
     async def yesterday(self, button: discord.ui.Button, interaction: discord.Interaction):
         self.today -= timedelta(days=1)
         await interaction.response.edit_message(embed=get_menu(key, self.today, self.ntr), view=self)
-    
+
     @discord.ui.button(label="📃", style=discord.ButtonStyle.gray)
     async def toggle_ntr(self, button: discord.ui.Button, interaction: discord.Interaction):
         self.ntr = not self.ntr
         await interaction.response.edit_message(embed=get_menu(key, self.today, self.ntr), view=self)
-    
+
     @discord.ui.button(label="▶️", style=discord.ButtonStyle.blurple)
     async def tomorrow(self, button: discord.ui.Button, interaction: discord.Interaction):
         self.today += timedelta(days=1)
