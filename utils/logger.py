@@ -32,4 +32,4 @@ def setup_logging():
     formatter = HighlightingFormatter("{asctime} {levelname} {name}: {message}", "%Y-%m-%d %H:%M:%S", "{")
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
-    logging.basicConfig(handlers=[handler], level=logging.NOTSET)
+    logging.basicConfig(handlers=[handler], level=logging.INFO)

@@ -1,4 +1,4 @@
-from logging import getLogger
+from logging import getLogger, DEBUG
 from sqlite3 import connect
 
 from comcigan import AsyncSchool
@@ -10,14 +10,16 @@ from config import BAD, COLOR
 from utils.commands import slash_command
 
 logger = getLogger(__name__)
+logger.setLevel(DEBUG)
 days = ["월", "화", "수", "목", "금", "토"]
 
 
 class Schedule(commands.Cog):
     def __init__(self):
         self.conn = connect("database.db", isolation_level=None)
-        self.cursor = self.conn.cursor()
         self.conn.set_trace_callback(logger.debug)
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS UserData(Id int, Grade int, Class int)")
 
     @slash_command(name="등록", description="학생 데이터를 등록합니다.")
     async def register(
