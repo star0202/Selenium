@@ -7,12 +7,13 @@ from discord.ext import commands
 
 from config import COLOR
 from utils.commands import slash_command
+from utils.bot import Bot
 
 logger = getLogger(__name__)
 
 
 class Default(commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Bot):
         self.bot = bot
 
     @slash_command(name="핑", description="봇의 핑을 전송합니다.")
@@ -51,13 +52,13 @@ class Default(commands.Cog):
 
     @slash_command()
     async def stop(self, ctx: ApplicationContext):
-        if await self.bot.is_owner(ctx.author):
+        if await self.bot.is_owner(ctx.user):
             await ctx.respond("stopping..")
             await self.bot.close()
 
     @slash_command()
     async def reload_ext(self, ctx: ApplicationContext, ext_name: Option(str)):
-        if await self.bot.is_owner(ctx.author):
+        if await self.bot.is_owner(ctx.user):
             self.bot.unload_extension(f"functions.{ext_name}")
             self.bot.load_extension(f"functions.{ext_name}")
             await ctx.respond(f"{ext_name}.py reloaded")

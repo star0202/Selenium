@@ -17,19 +17,23 @@ logger = getLogger(__name__)
 key = getenv("NEIS_KEY")
 
 
-def get_menu(key: str, time: datetime, ntr: bool) -> discord.Embed:
+def get_menu(api_key: str, time: datetime, ntr: bool) -> discord.Embed:
     year = time.year
     month = time.month
     day = time.day
     fday = format(day, "02d")
-    url = f"https://open.neis.go.kr/hub/mealServiceDietInfo?KEY={key}&Type=json&pIndex=1&pSize=10&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7091455&MLSV_YMD={year}{month}{fday}"
+    url = f"https://open.neis.go.kr/hub/mealServiceDietInfo?KEY={api_key}&Type=json&pIndex=1&pSize=10&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7091455&MLSV_YMD={year}{month}{fday}"
     req = get(url)
     try:
         data = loads(req.text)["mealServiceDietInfo"]
     except KeyError:
         data = loads(req.text)["RESULT"]
         if data["CODE"] == "INFO-200":
-            embed = discord.Embed(title=f"{year}/{month}/{day} 급식 정보", description="급식 정보가 없습니다, 날짜를 확인해주세요.", color=BAD)
+            embed = discord.Embed(
+                title=f"{year}/{month}/{day} 급식 정보",
+                description="급식 정보가 없습니다, 날짜를 확인해주세요.",
+                color=BAD
+            )
             embed.add_field(name="CODE", value=data["CODE"])
             embed.add_field(name="MESSAGE", value=data["MESSAGE"])
             return embed
@@ -65,7 +69,11 @@ def get_menu(key: str, time: datetime, ntr: bool) -> discord.Embed:
                 menu_dict[x.replace("()", "")] = menu_allergic.pop(0)
             else:
                 menu_dict[x] = "알러지 정보 없음"
-        embed = discord.Embed(title=f"{year}/{month}/{day} 급식 정보", description="작은 글씨는 알러지 정보입니다. 📃 : 영양소 보기", color=COLOR)
+        embed = discord.Embed(
+            title=f"{year}/{month}/{day} 급식 정보",
+            description="작은 글씨는 알러지 정보입니다. 📃 : 영양소 보기",
+            color=COLOR
+        )
         for x in menu_dict:
             embed.add_field(name=x, value=menu_dict[x])
     return embed
@@ -78,17 +86,17 @@ class MenuControl(discord.ui.View):
         self.ntr = ntr
 
     @discord.ui.button(label="◀️", style=discord.ButtonStyle.blurple)
-    async def yesterday(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def yesterday(self, _, interaction: discord.Interaction):
         self.today -= timedelta(days=1)
         await interaction.response.edit_message(embed=get_menu(key, self.today, self.ntr), view=self)
 
     @discord.ui.button(label="📃", style=discord.ButtonStyle.gray)
-    async def toggle_ntr(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def toggle_ntr(self, _, interaction: discord.Interaction):
         self.ntr = not self.ntr
         await interaction.response.edit_message(embed=get_menu(key, self.today, self.ntr), view=self)
 
     @discord.ui.button(label="▶️", style=discord.ButtonStyle.blurple)
-    async def tomorrow(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def tomorrow(self, _, interaction: discord.Interaction):
         self.today += timedelta(days=1)
         await interaction.response.edit_message(embed=get_menu(key, self.today, self.ntr), view=self)
 

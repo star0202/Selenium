@@ -28,7 +28,7 @@ class Schedule(commands.Cog):
             grade_num: Option(int, name="학년", description="학년을 입력하세요"),
             class_num: Option(int, name="반", description="반을 입력하세요")
     ):
-        self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.author.id}")
+        self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
         if self.cursor.fetchone():
             self.cursor.execute(f"UPDATE UserData SET Grade={grade_num}, Class={class_num} WHERE Id={ctx.user.id}")
             embed = Embed(title="학생 데이터 수정 완료", description=f"`{grade_num}`학년 `{class_num}`반으로 수정되었습니다.", color=COLOR)
@@ -39,7 +39,7 @@ class Schedule(commands.Cog):
 
     @slash_command(name="등록해제", description="학생 데이터를 등록 해제합니다.")
     async def deregister(self, ctx: ApplicationContext):
-        self.cursor.execute(f"DELETE FROM UserData WHERE Id={ctx.author.id}")
+        self.cursor.execute(f"DELETE FROM UserData WHERE Id={ctx.user.id}")
         embed = Embed(title="학생 데이터 등록 해제 완료", description="등록이 해제되었습니다.", color=COLOR)
         await ctx.respond(embed=embed)
 
