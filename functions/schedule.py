@@ -43,7 +43,7 @@ class Schedule(commands.Cog):
         embed = Embed(title="학생 데이터 등록 해제 완료", description="등록이 해제되었습니다.", color=COLOR)
         await ctx.respond(embed=embed)
 
-    @slash_command(name="시간표", description="오늘 시간표를 출력합니다.")
+    @slash_command(name="시간표", description="시간표를 출력합니다.")
     async def schedule(
             self,
             ctx: ApplicationContext,
