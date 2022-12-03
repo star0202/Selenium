@@ -17,6 +17,7 @@ class Schedule(commands.Cog):
     def __init__(self):
         self.conn = connect("database.db", isolation_level=None)
         self.cursor = self.conn.cursor()
+        self.conn.set_trace_callback(logger.debug)
 
     @slash_command(name="등록", description="학생 데이터를 등록합니다.")
     async def register(
@@ -26,21 +27,17 @@ class Schedule(commands.Cog):
             class_num: Option(int, name="반", description="반을 입력하세요")
     ):
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.author.id}")
-        logger.debug(f"SELECT * FROM UserData WHERE Id={ctx.author.id}")
         if self.cursor.fetchone():
             self.cursor.execute(f"UPDATE UserData SET Grade={grade_num}, Class={class_num} WHERE Id={ctx.user.id}")
-            logger.debug(f"UPDATE UserData SET Grade={grade_num}, Class={class_num} WHERE Id={ctx.user.id}")
             embed = Embed(title="학생 데이터 수정 완료", description=f"`{grade_num}`학년 `{class_num}`반으로 수정되었습니다.", color=COLOR)
         else:
             self.cursor.execute(f"INSERT INTO UserData VALUES({ctx.user.id}, {grade_num}, {class_num})")
-            logger.debug(f"INSERT INTO UserData VALUES({ctx.user.id}, {grade_num}, {class_num})")
             embed = Embed(title="학생 데이터 등록 완료", description=f"`{grade_num}`학년 `{class_num}`반으로 등록되었습니다.", color=COLOR)
         await ctx.respond(embed=embed)
 
     @slash_command(name="등록해제", description="학생 데이터를 등록 해제합니다.")
     async def deregister(self, ctx: ApplicationContext):
         self.cursor.execute(f"DELETE FROM UserData WHERE Id={ctx.author.id}")
-        logger.debug(f"DELETE FROM UserData WHERE Id={ctx.author.id}")
         embed = Embed(title="학생 데이터 등록 해제 완료", description="등록이 해제되었습니다.", color=COLOR)
         await ctx.respond(embed=embed)
 
@@ -53,7 +50,6 @@ class Schedule(commands.Cog):
     ):
         registered = False
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
-        logger.debug(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
         data = self.cursor.fetchone()
         if data:
             grade_num = data[1]
