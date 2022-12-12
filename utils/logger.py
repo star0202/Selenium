@@ -35,7 +35,7 @@ def setup_logging():
     filehandler = logging.FileHandler(f"logs/{today.strftime('%Y-%m-%d-%H-%M-%S')}.log", "a", "utf-8")
     filehandler.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    handler.setFormatter(StreamFormatter("{asctime} {levelname} {name}: {message}", "%Y-%m-%d %H:%M:%S", "{"))
+    handler.setFormatter(StreamFormatter("%(asctime)s.%(msecs)03d %(levelname)s %(name)s: %(message)s", "%Y-%m-%d %H:%M:%S", "%"))
     handler.setLevel(logging.INFO)
     logging.basicConfig(
         format="%(asctime)s.%(msecs)03d %(levelname)-8s %(name)-22s: %(message)s",
