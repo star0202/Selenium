@@ -39,6 +39,6 @@ def setup_logging():
     handler.setLevel(logging.INFO)
     logging.basicConfig(
         format="%(asctime)s.%(msecs)03d %(levelname)-8s %(name)-22s: %(message)s",
-        datefmt="%Y-%m-%d,%H:%M:%S",
+        datefmt="%Y-%m-%d %H:%M:%S",
         handlers=[filehandler, handler], level=logging.DEBUG
     )
