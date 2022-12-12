@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from discord import Embed, Colour, Member
+from discord import Embed, Colour, Member, guild_only
 from discord.commands import ApplicationContext, Option
 from discord.ext import commands
 
@@ -36,6 +36,7 @@ class Info(commands.Cog):
         await ctx.respond(embed=embed)
 
     @slash_command(name="서버정보", description="현재 서버의 정보를 전송합니다.")
+    @guild_only()
     async def server_info(self, ctx: ApplicationContext):
         server = ctx.guild
         embed = Embed(colour=COLOR, title=server.name)

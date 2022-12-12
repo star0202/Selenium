@@ -26,7 +26,7 @@ class Default(commands.Cog):
         await ctx.respond(embed=embed)
 
     @slash_command(name="봇", description="봇의 정보를 전송합니다.")
-    async def botinfo(self, ctx: ApplicationContext):
+    async def info(self, ctx: ApplicationContext):
         nowtime = time()
         s = round(nowtime - self.bot.start_time)
         d = 0
