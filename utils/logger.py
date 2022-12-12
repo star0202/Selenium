@@ -1,17 +1,19 @@
 import logging
 
+from utils.gettime import get_time
+
 RESET = "\033[0m"
 CYAN = "\033[1;36m"
 COLORS = {
-    "DEBUG": "\033[1;37m",    # WHITE
-    "INFO": "\033[1;34m",     # BLUE
+    "DEBUG": "\033[1;37m",  # WHITE
+    "INFO": "\033[1;34m",  # BLUE
     "WARNING": "\033[1;33m",  # YELLOW
-    "ERROR": "\033[1;35m",    # MAGENTA
+    "ERROR": "\033[1;35m",  # MAGENTA
     "CRITICAL": "\033[1;31m"  # RED
 }
 
 
-class HighlightingFormatter(logging.Formatter):
+class StreamFormatter(logging.Formatter):
     def __init__(self, formattype, datefmt, style):
         super().__init__(formattype, datefmt, style)
 
@@ -20,7 +22,7 @@ class HighlightingFormatter(logging.Formatter):
         levelname_color = COLORS[record.levelname] + record.levelname + RESET + " " * space
         record.levelname = levelname_color
 
-        space = 15 - len(record.name)
+        space = 22 - len(record.name)
         if space < 0:
             space = 0
         record.name = CYAN + record.name + RESET + " " * space
@@ -29,7 +31,14 @@ class HighlightingFormatter(logging.Formatter):
 
 
 def setup_logging():
-    formatter = HighlightingFormatter("{asctime} {levelname} {name}: {message}", "%Y-%m-%d %H:%M:%S", "{")
+    today = get_time()
+    filehandler = logging.FileHandler(f"logs/{today.strftime('%Y-%m-%d-%H-%M-%S')}.log", "a", "utf-8")
+    filehandler.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    handler.setFormatter(formatter)
-    logging.basicConfig(handlers=[handler], level=logging.INFO)
+    handler.setFormatter(StreamFormatter("{asctime} {levelname} {name}: {message}", "%Y-%m-%d %H:%M:%S", "{"))
+    handler.setLevel(logging.INFO)
+    logging.basicConfig(
+        format="%(asctime)s.%(msecs)03d %(levelname)-8s %(name)-22s: %(message)s",
+        datefmt="%Y-%m-%d,%H:%M:%S",
+        handlers=[filehandler, handler], level=logging.DEBUG
+    )

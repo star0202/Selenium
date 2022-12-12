@@ -1,4 +1,4 @@
-from logging import getLogger, DEBUG
+from logging import getLogger
 from sqlite3 import connect
 
 from comcigan import AsyncSchool
@@ -10,7 +10,6 @@ from config import BAD, COLOR
 from utils.commands import slash_command
 
 logger = getLogger(__name__)
-logger.setLevel(DEBUG)
 days = ["월", "화", "수", "목", "금", "토"]
 
 
