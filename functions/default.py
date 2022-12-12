@@ -64,9 +64,10 @@ class Default(commands.Cog):
 
     @slash_command()
     async def send_here(self, ctx: ApplicationContext, content: Option(str)):
-        await ctx.send(content)
-        delete_this = await ctx.respond("random respond")
-        await delete_this.delete_original_response()
+        if await self.bot.is_owner(ctx.user):
+            await ctx.send(content)
+            delete_this = await ctx.respond("random respond")
+            await delete_this.delete_original_response()
 
 
 def setup(bot):
