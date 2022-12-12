@@ -16,7 +16,7 @@ idna==3.4
 import-expression==1.1.4
 jishkucord==2.5.2
 mccabe==0.7.0
-multidict==6.0.2
+multidict==6.0.3
 py-cord==2.3.2
 pycodestyle==2.10.0
 pyflakes==3.0.1
