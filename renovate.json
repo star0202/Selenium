@@ -1,8 +1,7 @@
 {
   "packageRules": [
     {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true
+      "matchDepTypes": ["devDependencies"]
     }
   ]
 }
