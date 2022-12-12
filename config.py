@@ -1,4 +1,4 @@
 TEST_GUILD_ID = None
-STATUS = "uwu"
+STATUS = "Powered by Python"
 COLOR = 0x2f3136
 BAD = 0xed4245

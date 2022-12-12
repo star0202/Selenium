@@ -8,6 +8,7 @@ from discord.ext import commands
 from config import COLOR
 from utils.commands import slash_command
 from utils.bot import Bot
+from constants import VERSION
 
 logger = getLogger(__name__)
 
@@ -43,11 +44,9 @@ class Default(commands.Cog):
         embed = Embed(title="봇 정보", color=COLOR)
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
         embed.add_field(name="봇 이름", value=f"**{self.bot.user.name}** ({str(self.bot.user)})", inline=False)
-        embed.add_field(
-            name="업타임", value=f"{d} 일 {h} 시간 {m} 분 {s} 초",
-            inline=False
-        )
+        embed.add_field(name="업타임", value=f"{d} 일 {h} 시간 {m} 분 {s} 초", inline=False)
         embed.add_field(name="봇 ID", value=str(self.bot.user.id), inline=False)
+        embed.add_field(name="버전", value=str(VERSION), inline=False)
         await ctx.respond(embed=embed)
 
     @slash_command()
