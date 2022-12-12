@@ -14,6 +14,7 @@ from utils.commands import slash_command
 from utils.gettime import get_time
 
 logger = getLogger(__name__)
+days = ["월", "화", "수", "목", "금", "토", "일"]
 key = getenv("NEIS_KEY")
 
 
@@ -21,6 +22,7 @@ def get_menu(api_key: str, time: datetime, ntr: bool) -> discord.Embed:
     year = time.year
     month = time.month
     day = time.day
+    week = time.weekday()
     fday = format(day, "02d")
     url = f"https://open.neis.go.kr/hub/mealServiceDietInfo?KEY={api_key}&Type=json&pIndex=1&pSize=10&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7091455&MLSV_YMD={year}{month}{fday}"
     req = get(url)
@@ -54,7 +56,10 @@ def get_menu(api_key: str, time: datetime, ntr: bool) -> discord.Embed:
         ntr_dict = {"칼로리": (cal[0], f"({cal[1]})")}
         for x in ntr_name:
             ntr_dict[x] = (ntr_amt.pop(0), ntr_unit.pop(0))
-        embed = discord.Embed(title=f"{year}/{month}/{day} 급식 영양소 정보", color=COLOR, description="📃 : 급식 보기")
+        embed = discord.Embed(
+            title=f"{year}/{month}/{day} {days[week]}요일 급식 영양소 정보",
+            color=COLOR, description="📃 : 급식 보기"
+        )
         for x in ntr_dict:
             embed.add_field(name=x, value=f"{ntr_dict[x][0]} {ntr_dict[x][1]}")
     else:
@@ -70,7 +75,7 @@ def get_menu(api_key: str, time: datetime, ntr: bool) -> discord.Embed:
             else:
                 menu_dict[x] = "알러지 정보 없음"
         embed = discord.Embed(
-            title=f"{year}/{month}/{day} 급식 정보",
+            title=f"{year}/{month}/{day} {days[week]}요일 급식 정보",
             description="작은 글씨는 알러지 정보입니다. 📃 : 영양소 보기",
             color=COLOR
         )
