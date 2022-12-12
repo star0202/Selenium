@@ -6,9 +6,9 @@ from discord.commands import ApplicationContext, Option
 from discord.ext import commands
 
 from config import COLOR
-from utils.commands import slash_command
-from utils.bot import Bot
 from constants import VERSION
+from utils.bot import Bot
+from utils.commands import slash_command
 
 logger = getLogger(__name__)
 
@@ -54,6 +54,18 @@ class Default(commands.Cog):
         if await self.bot.is_owner(ctx.user):
             await ctx.respond("stopping..")
             await self.bot.close()
+
+    @slash_command()
+    async def load_ext(self, ctx: ApplicationContext, ext_name: Option(str)):
+        if await self.bot.is_owner(ctx.user):
+            self.bot.load_extension(f"functions.{ext_name}")
+            await ctx.respond(f"{ext_name}.py loaded")
+
+    @slash_command()
+    async def unload_ext(self, ctx: ApplicationContext, ext_name: Option(str)):
+        if await self.bot.is_owner(ctx.user):
+            self.bot.unload_extension(f"functions.{ext_name}")
+            await ctx.respond(f"{ext_name}.py loaded")
 
     @slash_command()
     async def reload_ext(self, ctx: ApplicationContext, ext_name: Option(str)):
