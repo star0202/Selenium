@@ -45,8 +45,8 @@ class Bot(commands.Bot):
         self.logger.error(text)
         await ctx.send(
             embed=discord.Embed(
-                title=f"오류 발생: {error.__class__.__name__}",
-                description=f"```{text}```",
+                title=f"오류 발생",
+                description="개발자에게 문의 바랍니다.",
                 color=BAD
             )
         )
