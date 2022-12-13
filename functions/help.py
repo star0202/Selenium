@@ -11,7 +11,7 @@ from utils.utils import help_maker
 
 logger = getLogger(__name__)
 
-help_list = HELP_EMBED_RAW.keys()
+help_list = list(HELP_SELECT_RAW.keys())
 help_select = help_maker(HELP_SELECT_RAW, COLOR, False)
 help_embed = help_maker(HELP_EMBED_RAW, COLOR)
 
