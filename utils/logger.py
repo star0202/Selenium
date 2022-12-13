@@ -37,8 +37,10 @@ def setup_logging():
     handler = logging.StreamHandler()
     handler.setFormatter(StreamFormatter("%(asctime)s.%(msecs)03d %(levelname)s %(name)s: %(message)s", "%Y-%m-%d %H:%M:%S", "%"))
     handler.setLevel(logging.INFO)
+    errorhandler = logging.FileHandler(f"errors/{today.strftime('%Y-%m-%d-%H-%M-%S')}.log", "a", "utf-8")
+    errorhandler.setLevel(logging.ERROR)
     logging.basicConfig(
         format="%(asctime)s.%(msecs)03d %(levelname)-8s %(name)-22s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
-        handlers=[filehandler, handler], level=logging.DEBUG
+        handlers=[filehandler, errorhandler, handler], level=logging.DEBUG
     )
