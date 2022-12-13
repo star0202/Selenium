@@ -8,9 +8,9 @@ from discord.ext import commands
 
 from config import BAD, COLOR
 from utils.commands import slash_command
+from constants import DAYS
 
 logger = getLogger(__name__)
-days = ["월", "화", "수", "목", "금", "토"]
 
 
 class Schedule(commands.Cog):
@@ -73,9 +73,9 @@ class Schedule(commands.Cog):
                 for classes in jd[grade_num][class_num][day]:
                     temp += classes[0] + " "
                 if temp == "":
-                    embed.add_field(name=f"{days[day]}요일", value="정보 없음", inline=False)
+                    embed.add_field(name=f"{DAYS[day]}요일", value="정보 없음", inline=False)
                 else:
-                    embed.add_field(name=f"{days[day]}요일", value=temp, inline=False)
+                    embed.add_field(name=f"{DAYS[day]}요일", value=temp, inline=False)
             except IndexError:
                 continue
         await ctx.respond(embed=embed)
