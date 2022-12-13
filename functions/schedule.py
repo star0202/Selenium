@@ -24,8 +24,8 @@ class Schedule(commands.Cog):
     async def register(
             self,
             ctx: ApplicationContext,
-            grade_num: Option(int, name="학년", description="학년을 입력하세요"),
-            class_num: Option(int, name="반", description="반을 입력하세요")
+            grade_num: Option(int, name="학년", description="학년을 입력하세요", choices=[1, 2, 3]),
+            class_num: Option(int, name="반", description="반을 입력하세요", choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     ):
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
         if self.cursor.fetchone():
@@ -46,8 +46,14 @@ class Schedule(commands.Cog):
     async def schedule(
             self,
             ctx: ApplicationContext,
-            grade_num: Option(int, name="학년", description="학년을 입력하세요", required=False),
-            class_num: Option(int, name="반", description="반을 입력하세요", required=False)
+            grade_num: Option(int, name="학년", description="학년을 입력하세요", required=False, choices=[1, 2, 3]),
+            class_num: Option(
+                int,
+                name="반",
+                description="반을 입력하세요",
+                required=False,
+                choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            ),
     ):
         registered = False
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
