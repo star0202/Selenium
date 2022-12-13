@@ -11,7 +11,7 @@ from requests import get
 
 from config import BAD, COLOR
 from utils.commands import slash_command
-from utils.gettime import get_time
+from utils.utils import get_time
 from constants import DAYS
 
 logger = getLogger(__name__)

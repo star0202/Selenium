@@ -6,7 +6,7 @@ from discord.ext import commands
 
 from config import COLOR
 from utils.commands import slash_command
-from utils.timeconvert import datetime_to_unix
+from utils.utils import datetime_to_unix
 
 logger = getLogger(__name__)
 

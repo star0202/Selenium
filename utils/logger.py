@@ -1,6 +1,6 @@
 import logging
 
-from utils.gettime import get_time
+from utils.utils import get_time
 
 RESET = "\033[0m"
 CYAN = "\033[1;36m"

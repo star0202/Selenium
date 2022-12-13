@@ -9,7 +9,7 @@ from discord.ext import commands
 from config import COLOR
 from constants import COVID_SELECTORS
 from utils.commands import slash_command
-from utils.gettime import get_time
+from utils.utils import get_time
 from constants import DAYS
 
 logger = getLogger(__name__)
