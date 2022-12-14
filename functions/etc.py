@@ -12,7 +12,7 @@ logger = getLogger(__name__)
 class GithubLink(View):
     def __init__(self):
         super().__init__()
-        self.add_item(Button(label="🛠️", url="https://github.com/star0202/club-discord-bot"))
+        self.add_item(Button(label="🛠️", url="https://github.com/star0202/Selenium"))
 
 
 class Etc(commands.Cog):
