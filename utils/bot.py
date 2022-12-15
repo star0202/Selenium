@@ -66,3 +66,7 @@ class Bot(commands.Bot):
             )
         ) if not args[0] is None else None
         self.logger.error(text)
+
+    async def on_application_command(self, ctx: discord.ApplicationContext):
+        self.logger.info(f"{ctx.user}({ctx.user.id}): /{ctx.command.name}"
+                         f"{' ' + str(ctx.selected_options) if ctx.selected_options else ''}")
