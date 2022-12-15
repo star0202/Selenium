@@ -9,6 +9,7 @@ import discord
 from discord.ext import commands
 
 from config import BAD, STATUS
+from constants import OPTION_TYPES
 from utils.logger import setup_logging
 
 
@@ -47,7 +48,7 @@ class Bot(commands.Bot):
     async def on_command_error(self, ctx: discord.ApplicationContext, error: discord.ApplicationCommandError):
         text = "".join(format_exception(type(error), error, error.__traceback__))
         self.logger.error(text)
-        await ctx.send(
+        await ctx.respond(
             embed=discord.Embed(
                 title="오류 발생",
                 description="개발자에게 문의 바랍니다.",
@@ -68,5 +69,10 @@ class Bot(commands.Bot):
         self.logger.error(text)
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
-        self.logger.info(f"{ctx.user}({ctx.user.id}): /{ctx.command.name}"
-                         f"{' ' + str(ctx.selected_options) if ctx.selected_options else ''}")
+        args = ""
+        if ctx.selected_options:
+            for option in ctx.selected_options:
+                args += f"[Name: {option['name']}, Value: {option['value']}, Type: {OPTION_TYPES[option['type']]}] "
+            args = args[:-1]
+        guild = f"{ctx.guild}({ctx.guild.id})" if ctx.guild else "DM"
+        self.logger.info(f"{ctx.user}({ctx.user.id}) in {guild}: /{ctx.command.name} {args}")
