@@ -26,9 +26,10 @@ class Bot(commands.Bot):
         self.logger.info(f"{len(self.extensions)} extensions are completely loaded")
 
     def load_cog(self, cog: str):
+        result = self.load_extension(cog, store=True)[cog]
         try:
-            if type(self.load_extension(cog, store=True)[cog]) == discord.ExtensionFailed:
-                self.logger.error(self.load_extension(cog)[cog])
+            if isinstance(result, discord.ExtensionFailed):
+                self.logger.error("".join(format_exception(result)))
         except Exception as e:
             self.logger.error(e)
 
