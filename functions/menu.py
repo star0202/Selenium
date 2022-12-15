@@ -26,13 +26,14 @@ def get_menu(api_key: str, time: datetime, ntr: bool) -> discord.Embed:
     fday = format(day, "02d")
     url = f"https://open.neis.go.kr/hub/mealServiceDietInfo?KEY={api_key}&Type=json&pIndex=1&pSize=10&ATPT_OFCDC_SC_CODE=B10&SD_SCHUL_CODE=7091455&MLSV_YMD={year}{month}{fday}"
     req = get(url)
+    logger.debug(loads(req.text))
     try:
         data = loads(req.text)["mealServiceDietInfo"]
     except KeyError:
         data = loads(req.text)["RESULT"]
         if data["CODE"] == "INFO-200":
             embed = discord.Embed(
-                title=f"{year}/{month}/{day} 급식 정보",
+                title=f"{year}/{month}/{day} ({DAYS[week]}) 급식 정보",
                 description="급식 정보가 없습니다, 날짜를 확인해주세요.",
                 color=BAD
             )
