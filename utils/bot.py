@@ -3,6 +3,7 @@ from os import getenv, listdir
 from time import time
 from traceback import format_exception
 from sys import exc_info
+from uuid import uuid4
 
 import discord
 from discord.ext import commands
@@ -17,6 +18,7 @@ class Bot(commands.Bot):
         setup_logging()
         self.logger = getLogger(__name__)
         self.start_time = time()
+        self.session = uuid4()
         for filename in listdir("functions"):
             if filename.endswith(".py"):
                 self.load_cog(f"functions.{filename[:-3]}")
@@ -35,6 +37,7 @@ class Bot(commands.Bot):
 
     async def on_ready(self):
         self.logger.info(f"Logged in as {self.user.name}")
+        self.logger.info(f"Session ID: {self.session}")
         await self.change_presence(
             status=discord.Status.online,
             activity=discord.Game(STATUS),
