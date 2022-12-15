@@ -2,6 +2,7 @@ from logging import getLogger
 from os import getenv, listdir
 from time import time
 from traceback import format_exception
+from sys import exc_info
 
 import discord
 from discord.ext import commands
@@ -50,3 +51,15 @@ class Bot(commands.Bot):
                 color=BAD
             )
         )
+
+    async def on_error(self, event, *args, **kwargs):
+        error = exc_info()
+        text = f"{error[0].__name__}: {error[1]}"
+        await args[0].channel.send(
+            embed=discord.Embed(
+                title="오류 발생",
+                description="개발자에게 문의 바랍니다.",
+                color=BAD
+            )
+        ) if not args[0] is None else None
+        self.logger.error(text)
