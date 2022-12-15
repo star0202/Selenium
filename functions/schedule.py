@@ -55,13 +55,11 @@ class Schedule(commands.Cog):
                 choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             ),
     ):
-        registered = False
         self.cursor.execute(f"SELECT * FROM UserData WHERE Id={ctx.user.id}")
         data = self.cursor.fetchone()
         if data:
             grade_num = data[1]
             class_num = data[2]
-            registered = True
         elif not (grade_num and class_num):
             embed = Embed(title="오류 발생", description="학년과 반을 입력하시거나, /등록 명령어를 통해 학년과 반을 등록해주세요.", color=BAD)
             await ctx.respond(embed=embed)
@@ -85,7 +83,7 @@ class Schedule(commands.Cog):
             except IndexError:
                 continue
         await ctx.respond(embed=embed)
-        if not registered:
+        if not data:
             await ctx.send("/등록 명령어로 학년과 반을 등록해 /시간표 만으로 시간표를 확인할 수 있어요!")
 
 
