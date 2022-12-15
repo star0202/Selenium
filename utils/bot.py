@@ -1,8 +1,8 @@
 from logging import getLogger
 from os import getenv, listdir
-from time import time
-from traceback import format_exception
 from sys import exc_info
+from time import time
+from traceback import format_exc, format_exception
 from uuid import uuid4
 
 import discord
@@ -15,7 +15,7 @@ from utils.logger import setup_logging
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix="!", intents=discord.Intents.all(), help_command=None)
+        super().__init__(intents=discord.Intents.all(), help_command=None)
         setup_logging()
         self.logger = getLogger(__name__)
         self.start_time = time()
@@ -24,7 +24,6 @@ class Bot(commands.Bot):
             if filename.endswith(".py"):
                 self.load_cog(f"functions.{filename[:-3]}")
         self.logger.info(f"{len(self.extensions)} extensions are completely loaded")
-        self.load_extension("jishaku")
 
     def load_cog(self, cog: str):
         try:
@@ -45,10 +44,12 @@ class Bot(commands.Bot):
         )
         await self.wait_until_ready()
 
-    async def on_command_error(self, ctx: discord.ApplicationContext, error: discord.ApplicationCommandError):
-        text = "".join(format_exception(type(error), error, error.__traceback__))
+    async def on_command_error(self, ctx: discord.ApplicationContext, error: discord.DiscordException):
+        if hasattr(ctx.command, "on_error"):
+            return
+        text = "".join(format_exception(error))
         self.logger.error(text)
-        await ctx.respond(
+        await ctx.send(
             embed=discord.Embed(
                 title="오류 발생",
                 description="개발자에게 문의 바랍니다.",
@@ -57,16 +58,14 @@ class Bot(commands.Bot):
         )
 
     async def on_error(self, event, *args, **kwargs):
-        error = exc_info()
-        text = f"{error[0].__name__}: {error[1]}"
         await args[0].channel.send(
             embed=discord.Embed(
                 title="오류 발생",
                 description="개발자에게 문의 바랍니다.",
                 color=BAD
             )
-        ) if not args[0] is None else None
-        self.logger.error(text)
+        ) if args[0] else None
+        self.logger.error(format_exc())
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
         args = ""
