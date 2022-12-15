@@ -1,8 +1,9 @@
-from discord.ext import commands
 from logging import getLogger
-from discord import ApplicationContext, Option
-from utils.commands import slash_command
 
+from discord import ApplicationContext, Option
+from discord.ext import commands
+
+from utils.commands import slash_command
 
 logger = getLogger(__name__)
 

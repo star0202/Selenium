@@ -1,16 +1,16 @@
 from logging import getLogger
 
-from discord import Embed
-from requests import get
 from bs4 import BeautifulSoup
 from discord import ApplicationContext
+from discord import Embed
 from discord.ext import commands
+from requests import get
 
 from config import COLOR
 from constants import COVID_SELECTORS
+from constants import DAYS
 from utils.commands import slash_command
 from utils.utils import get_time
-from constants import DAYS
 
 logger = getLogger(__name__)
 

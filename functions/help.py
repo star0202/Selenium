@@ -5,8 +5,8 @@ from discord.commands import ApplicationContext
 from discord.ext import commands
 
 from config import COLOR
-from utils.commands import slash_command
 from constants import HELP_SELECT_RAW, HELP_EMBED_RAW
+from utils.commands import slash_command
 from utils.utils import help_maker
 
 logger = getLogger(__name__)

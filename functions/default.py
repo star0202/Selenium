@@ -2,7 +2,7 @@ from logging import getLogger
 from time import time
 
 from discord import Embed
-from discord.commands import ApplicationContext, Option
+from discord.commands import ApplicationContext
 from discord.ext import commands
 
 from config import COLOR
