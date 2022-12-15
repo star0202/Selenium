@@ -27,7 +27,8 @@ class Info(commands.Cog):
         embed.add_field(name="계정명", value=str(user))
         embed.add_field(name="닉네임", value=user.display_name)
         embed.add_field(name="ID", value=str(user.id))
-        embed.add_field(name="최상위 역할", value=str(user.top_role))
+        embed.add_field(name="최상위 역할", value=f"<@&{user.top_role.id}>"
+                        if user.top_role != user.guild.default_role else str(user.top_role))
         embed.add_field(name="유형", value="봇" if user.bot else "일반 유저")
         embed.add_field(
             name="계정 생성 날짜",
