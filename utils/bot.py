@@ -1,6 +1,5 @@
 from logging import getLogger
 from os import getenv, listdir
-from sys import exc_info
 from time import time
 from traceback import format_exc, format_exception
 from uuid import uuid4
