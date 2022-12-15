@@ -44,7 +44,7 @@ class Bot(commands.Bot):
         )
         await self.wait_until_ready()
 
-    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+    async def on_command_error(self, ctx: discord.ApplicationContext, error: discord.ApplicationCommandError):
         text = "".join(format_exception(type(error), error, error.__traceback__))
         self.logger.error(text)
         await ctx.send(
