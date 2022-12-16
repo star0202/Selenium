@@ -1,4 +1,4 @@
-VERSION = "v1.0.1"
+VERSION = "v1.0.1-rc.1"
 DAYS = ["월", "화", "수", "목", "금", "토", "일"]
 COVID_SELECTORS = {
     "death": "#content > div > div > div > div.liveToggleOuter > div > div.live_left > div.occurrenceStatus > div.occur_graph > table > tbody > tr:nth-child(1) > td:nth-child(2) > span",
