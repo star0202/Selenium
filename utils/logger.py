@@ -1,4 +1,5 @@
 import logging
+from sys import argv
 
 from utils.utils import get_time
 
@@ -31,12 +32,16 @@ class StreamFormatter(logging.Formatter):
 
 
 def setup_logging():
+    if len(argv) > 1 and argv[1] == "debug":
+        level = logging.DEBUG
+    else:
+        level = logging.INFO
     today = get_time()
     filehandler = logging.FileHandler(f"logs/{today.strftime('%Y-%m-%d-%H-%M-%S')}.log", "a", "utf-8")
     filehandler.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
     handler.setFormatter(StreamFormatter("%(asctime)s.%(msecs)03d %(levelname)s %(name)s: %(message)s", "%Y-%m-%d %H:%M:%S", "%"))
-    handler.setLevel(logging.INFO)
+    handler.setLevel(level)
     errorhandler = logging.FileHandler(f"errors/error-{today.strftime('%Y-%m-%d-%H-%M-%S')}.log", "a", "utf-8", delay=True)
     errorhandler.setLevel(logging.ERROR)
     logging.basicConfig(
